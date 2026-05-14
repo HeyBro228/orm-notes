@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Виды ОРМ — Конспект</title>
+<link href="https://fonts.googleapis.com/css2?family=New+York:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FAF9F6;
+    --paper: #FFFEF9;
+    --ink: #1C1C1E;
+    --ink2: #3A3A3C;
+    --ink3: #636366;
+    --ink4: #AEAEB2;
+    --rule: #E5E3DC;
+    --yellow: #FFD60A;
+    --yellow-bg: #FFFBE6;
+    --coral: #FF6B6B;
+    --coral-bg: #FFF0F0;
+    --teal: #2DB88A;
+    --teal-bg: #F0FBF6;
+    --purple: #7C5CBF;
+    --purple-bg: #F5F0FF;
+    --amber: #F4A010;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08), 0 24px 48px rgba(0,0,0,0.04);
+  }
+
+  body {
+    background: var(--bg);
+    font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .note {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--paper);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 0.5px solid rgba(0,0,0,0.07);
+  }
+
+  /* ── Toolbar ── */
+  .toolbar {
+    background: #F2F1EC;
+    border-bottom: 0.5px solid var(--rule);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot.r { background: #FF5F57; }
+  .dot.y { background: #FEBC2E; }
+  .dot.g { background: #28C840; }
+  .toolbar-title {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink3);
+    letter-spacing: 0.01em;
+  }
+
+  /* ── Note header ── */
+  .note-header {
+    padding: 36px 48px 28px;
+    border-bottom: 0.5px solid var(--rule);
+    background: linear-gradient(to bottom, #FFFEF5, var(--paper));
+  }
+  .note-date {
+    font-size: 12px;
+    color: var(--ink4);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .note-title {
+    font-family: 'New York', 'Georgia', serif;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .note-subtitle {
+    font-size: 14px;
+    color: var(--ink3);
+    font-style: italic;
+  }
+
+  /* ── Content ── */
+  .note-body {
+    padding: 32px 48px 48px;
+  }
+
+  /* Callout box */
+  .callout {
+    background: var(--yellow-bg);
+    border-left: 3px solid var(--yellow);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin-bottom: 28px;
+    font-size: 13.5px;
+    color: var(--ink2);
+    line-height: 1.6;
+  }
+  .callout strong { color: var(--ink); }
+
+  /* Section heading */
+  h2 {
+    font-family: 'New York', 'Georgia', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 36px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2:first-child { margin-top: 0; }
+  h2 .pill {
+    font-family: -apple-system, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 3px 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 20px 0 10px;
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 0.5px solid var(--rule);
+    margin: 28px 0;
+  }
+
+  /* ── ORM cards grid ── */
+  .orm-grid {
+    display: grid;
+    gap: 8px;
+  }
+
+  .orm-card {
+    border-radius: 10px;
+    padding: 13px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 0.5px solid transparent;
+    transition: border-color 0.15s;
+    cursor: default;
+  }
+  .orm-card:hover { border-color: var(--rule); }
+
+  .orm-num {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink4);
+    min-width: 28px;
+    padding-top: 1px;
+    letter-spacing: 0.03em;
+  }
+
+  .orm-body { flex: 1; }
+  .orm-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .orm-desc {
+    font-size: 12.5px;
+    color: var(--ink3);
+    line-height: 1.5;
+  }
+
+  .orm-badge {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 1px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Coral section */
+  .section-sud .orm-card { background: var(--coral-bg); }
+  .section-sud .orm-badge { background: #FFD5D5; color: #B02020; }
+
+  /* Teal section */
+  .section-ved .orm-card { background: var(--teal-bg); }
+  .section-ved .orm-badge { background: #C6F0E0; color: #0A5C3C; }
+
+  /* Purple section */
+  .section-obc .orm-card { background: var(--purple-bg); }
+  .section-obc .orm-badge { background: #E4D9FF; color: #4A2E8C; }
+
+  /* Section label strip */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .section-label .bar {
+    height: 3px;
+    border-radius: 2px;
+    flex: 1;
+  }
+  .section-label .bar.coral { background: var(--coral); }
+  .section-label .bar.teal  { background: var(--teal); }
+  .section-label .bar.purple{ background: var(--purple); }
+
+  .section-label .count {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink4);
+  }
+
+  /* ── Dual ORM note ── */
+  .dual-note {
+    background: #F7F6F0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 8px;
+    border: 0.5px solid var(--rule);
+  }
+  .dual-note .dual-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink3);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .dual-row {
+    font-size: 12.5px;
+    color: var(--ink2);
+    line-height: 1.6;
+    padding: 4px 0;
+    border-top: 0.5px solid var(--rule);
+    display: flex;
+    gap: 8px;
+  }
+  .dual-row:first-of-type { border-top: none; }
+  .dual-para { font-size: 11px; color: var(--ink4); }
+
+  /* ── Summary table ── */
+  .summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .sum-card {
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .sum-card .num {
+    font-family: 'New York', 'Georgia', serif;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .sum-card .label {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .sum-card.coral { background: var(--coral-bg); }
+  .sum-card.coral .num { color: var(--coral); }
+  .sum-card.coral .label { color: #B02020; }
+  .sum-card.teal { background: var(--teal-bg); }
+  .sum-card.teal .num { color: var(--teal); }
+  .sum-card.teal .label { color: #0A5C3C; }
+  .sum-card.purple { background: var(--purple-bg); }
+  .sum-card.purple .num { color: var(--purple); }
+  .sum-card.purple .label { color: #4A2E8C; }
+
+  /* ── Inline tag ── */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--rule);
+    color: var(--ink3);
+    border-radius: 6px;
+    padding: 1px 6px;
+  }
+
+  /* ── Reference chip ── */
+  .ref-chip {
+    font-size:12px;font-weight:500;
+    padding:5px 12px;border-radius:20px;
+    border:0.5px solid var(--rule);
+    background:var(--paper);color:var(--ink3);
+    cursor:pointer;transition:all .15s;
+    font-family:inherit;
+  }
+  .ref-chip.active {
+    background:var(--ink);color:#fff;border-color:var(--ink);
+  }
+  .ref-chip:hover:not(.active) { background:var(--bg); }
+
+  /* ── Ref card ── */
+  .ref-card {
+    border-radius:10px;border:0.5px solid var(--rule);
+    background:var(--paper);overflow:hidden;
+    transition:border-color .15s;cursor:pointer;
+  }
+  .ref-card:hover { border-color: #C0BFBA; }
+  .ref-header {
+    display:flex;align-items:center;gap:10px;
+    padding:11px 14px;
+  }
+  .ref-num {
+    font-size:11px;font-weight:600;color:var(--ink4);
+    min-width:26px;letter-spacing:.03em;
+  }
+  .ref-name {
+    flex:1;font-size:13.5px;font-weight:500;color:var(--ink);
+  }
+  .ref-tags { display:flex;gap:5px;align-items:center;flex-shrink:0; }
+  .ref-tag {
+    font-size:10.5px;font-weight:600;padding:2px 8px;
+    border-radius:10px;white-space:nowrap;letter-spacing:.02em;
+  }
+  .ref-chevron {
+    font-size:12px;color:var(--ink4);
+    transition:transform .2s;flex-shrink:0;margin-left:2px;
+  }
+  .ref-card.open .ref-chevron { transform:rotate(180deg); }
+  .ref-details {
+    display:none;padding:0 14px 13px;
+    border-top:0.5px solid var(--rule);
+  }
+  .ref-card.open .ref-details { display:block; }
+  .ref-overview {
+    font-size:12.5px;color:var(--ink2);line-height:1.6;
+    padding:10px 0 8px;
+  }
+  .ref-rows { display:grid;gap:4px; }
+  .ref-row {
+    display:flex;gap:8px;font-size:12px;line-height:1.5;
+  }
+  .ref-lbl {
+    font-size:10.5px;font-weight:600;color:var(--ink4);
+    text-transform:uppercase;letter-spacing:.04em;
+    min-width:90px;padding-top:1px;
+  }
+  .ref-val { color:var(--ink3); }
+
+  /* tag colours by type */
+  .tag-glas  { background:#EAF3FF;color:#1A55A0; }
+  .tag-negl  { background:#EDE9FF;color:#4A2E8C; }
+  .tag-sud   { background:#FFE9E9;color:#B02020; }
+  .tag-san-sud { background:#FFE9E9;color:#B02020; }
+  .tag-san-ved { background:#E6FAF3;color:#0A5C3C; }
+  .tag-san-obc { background:#F5F0FF;color:#4A2E8C; }
+
+  .note-footer {
+    padding: 16px 48px 28px;
+    border-top: 0.5px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .note-footer .words {
+    font-size: 12px;
+    color: var(--ink4);
+  }
+  .note-footer .tags {
+    display: flex;
+    gap: 6px;
+  }
+
+  @media (max-width: 600px) {
+    .note-header, .note-body, .note-footer { padding-left: 24px; padding-right: 24px; }
+    .summary { grid-template-columns: 1fr; }
+    .note-title { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="note">
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="dot r"></div>
+    <div class="dot y"></div>
+    <div class="dot g"></div>
+    <div class="toolbar-title">Заметки</div>
+  </div>
+
+  <!-- Header -->
+  <div class="note-header">
+    <div class="note-date">14 мая 2026 · Оперативно-розыскная деятельность</div>
+    <div class="note-title">Виды ОРМ по порядку санкционирования</div>
+    <div class="note-subtitle">§§ 2–16 Закона об ОРД · 15 мероприятий · 3 вида</div>
+  </div>
+
+  <!-- Body -->
+  <div class="note-body">
+
+    <div class="callout">
+      <strong>Ключевая идея.</strong> Все 15 оперативно-розыскных мероприятий делятся на три группы в зависимости от того, кто санкционирует их проведение: <strong>суд</strong>, <strong>руководитель органа ОРД</strong> или <strong>сам оперативный сотрудник</strong>.
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary">
+      <div class="sum-card coral">
+        <div class="num">4</div>
+        <div class="label">Судебный порядок</div>
+      </div>
+      <div class="sum-card teal">
+        <div class="num">4</div>
+        <div class="label">Ведомственный порядок</div>
+      </div>
+      <div class="sum-card purple">
+        <div class="num">6</div>
+        <div class="label">Общий порядок</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BLOCK 1: Судебный -->
+    <h2>
+      <span style="color:var(--coral)">01</span>
+      Судебный порядок
+      <span class="pill" style="background:var(--coral-bg);color:#B02020">Решение суда</span>
+    </h2>
+    <p style="font-size:13.5px;color:var(--ink3);margin-bottom:14px;line-height:1.6">Проводятся только на основании судебного решения, поскольку ограничивают конституционные права граждан на тайну переписки, телефонных переговоров или неприкосновенность жилища. В неотложных случаях допускается начать без решения суда с уведомлением в течение <strong>48 часов</strong>.</p>
+
+    <div class="section-label">
+      <div class="bar coral"></div>
+      <div class="count">4 ОРМ</div>
+    </div>
+
+    <div class="orm-grid section-sud">
+      <div class="orm-card">
+        <div class="orm-num">§10</div>
+        <div class="orm-body">
+          <div class="orm-name">Контроль почтовых отправлений (КПО)</div>
+          <div class="orm-desc">Просмотр письменной корреспонденции на материальных носителях. Только через операторов почтовой связи. Субъект — ФСБ (исключительно БСТМ МВД). Срок до 6 месяцев.</div>
+        </div>
+        <div class="orm-badge">суд</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§11</div>
+        <div class="orm-body">
+          <div class="orm-name">Прослушивание телефонных переговоров (ПТП)</div>
+          <div class="orm-desc">Фиксация акустической информации по телефонным линиям. Объекты — подозреваемые в преступлениях средней тяжести, тяжких и особо тяжких. Возможно до возбуждения дела.</div>
+        </div>
+        <div class="orm-badge">суд</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§12</div>
+        <div class="orm-body">
+          <div class="orm-name">Снятие информации с технических каналов связи (СИТКС)</div>
+          <div class="orm-desc">Все каналы, кроме телефонных: e-mail, интернет, радиоперехват. Субъект — только ПСТМ. Оперативный сотрудник лишь организует.</div>
+        </div>
+        <div class="orm-badge">суд</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§16</div>
+        <div class="orm-body">
+          <div class="orm-name">Получение компьютерной информации (ПКИ)</div>
+          <div class="orm-desc">Введено в 2016 г. Удалённый доступ через закладные устройства или запрос к информационной системе оператора. Субъект — БСТМ. Только негласно.</div>
+        </div>
+        <div class="orm-badge">суд*</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--ink4);margin-top:8px">* ПКИ — судебное решение требуется, если затрагивается тайна переписки или неприкосновенность жилища. Без решения — если ни то ни другое не ограничивается.</p>
+
+    <hr class="divider">
+
+    <!-- BLOCK 2: Ведомственный -->
+    <h2>
+      <span style="color:var(--teal)">02</span>
+      Ведомственный порядок
+      <span class="pill" style="background:var(--teal-bg);color:#0A5C3C">Постановление руководителя</span>
+    </h2>
+    <p style="font-size:13.5px;color:var(--ink3);margin-bottom:14px;line-height:1.6">Требуют мотивированного постановления, утверждённого руководителем органа, осуществляющего ОРД (начальником ОВД или его заместителем). Судебного решения не нужно.</p>
+
+    <div class="section-label">
+      <div class="bar teal"></div>
+      <div class="count">4 ОРМ</div>
+    </div>
+
+    <div class="orm-grid section-ved">
+      <div class="orm-card">
+        <div class="orm-num">§5</div>
+        <div class="orm-body">
+          <div class="orm-name">Проверочная закупка (предметы ограниченного оборота)</div>
+          <div class="orm-desc">Наркотики, оружие, взрывчатка, контрафакт и др. — постановление обязательно. При закупке предметов свободного оборота достаточно решения сотрудника.</div>
+        </div>
+        <div class="orm-badge">постановление</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§13</div>
+        <div class="orm-body">
+          <div class="orm-name">Оперативное внедрение</div>
+          <div class="orm-desc">Проникновение в преступную среду. В постановлении фиксируются: тактический замысел, роль внедряемого, меры безопасности. Кратко- или долгосрочное.</div>
+        </div>
+        <div class="orm-badge">постановление</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§14</div>
+        <div class="orm-body">
+          <div class="orm-name">Контролируемая поставка (предметы ограниченного оборота)</div>
+          <div class="orm-desc">Три вида: внутренняя, внешняя, транзитная. Два подвида тактики: обычная (без изъятия) и подменная (муляж). Взаимодействие МВД, ФСБ, таможни, Интерпола.</div>
+        </div>
+        <div class="orm-badge">постановление</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§15</div>
+        <div class="orm-body">
+          <div class="orm-name">Оперативный эксперимент</div>
+          <div class="orm-desc">Только для преступлений средней тяжести, тяжких, особо тяжких. Провокация умысла — категорически запрещена. Умысел должен возникнуть до начала эксперимента.</div>
+        </div>
+        <div class="orm-badge">постановление</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BLOCK 3: Общий -->
+    <h2>
+      <span style="color:var(--purple)">03</span>
+      Общий порядок
+      <span class="pill" style="background:var(--purple-bg);color:#4A2E8C">Решение сотрудника</span>
+    </h2>
+    <p style="font-size:13.5px;color:var(--ink3);margin-bottom:14px;line-height:1.6">Достаточно самостоятельного решения оперативного сотрудника. Специальных разрешений не требуется. Иногда называется <em>уведомительным</em> или <em>инициативным</em> порядком.</p>
+
+    <div class="section-label">
+      <div class="bar purple"></div>
+      <div class="count">6 ОРМ</div>
+    </div>
+
+    <div class="orm-grid section-obc">
+      <div class="orm-card">
+        <div class="orm-num">§2</div>
+        <div class="orm-body">
+          <div class="orm-name">Опрос</div>
+          <div class="orm-desc">Специальная беседа. Гласно или негласно. Возможен полиграф — только с согласия. Принудительный привод недопустим.</div>
+        </div>
+        <div class="orm-badge">усмотрение</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§3</div>
+        <div class="orm-body">
+          <div class="orm-name">Наведение справок</div>
+          <div class="orm-desc">Запросы в ОВД, ФНС, Росреестр, банки, медучреждения, операторов связи. Для сведений под охраной федерального закона — судебное решение.</div>
+        </div>
+        <div class="orm-badge">усмотрение</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§4</div>
+        <div class="orm-body">
+          <div class="orm-name">Сбор образцов для сравнительного исследования</div>
+          <div class="orm-desc">Вспомогательное ОРМ — образцы нужны для §6. Гласно (с согласия) или негласно. Шире, чем следственное действие по кругу объектов.</div>
+        </div>
+        <div class="orm-badge">усмотрение</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§6</div>
+        <div class="orm-body">
+          <div class="orm-name">Исследование предметов и документов</div>
+          <div class="orm-desc">Оперативный аналог судебной экспертизы без УПК-формы. Проводится специалистами ЭКП. Объекты должны сохраняться для последующей экспертизы.</div>
+        </div>
+        <div class="orm-badge">усмотрение</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§7</div>
+        <div class="orm-body">
+          <div class="orm-name">Наблюдение (простое / наружное)</div>
+          <div class="orm-desc">Визуальное, электронное или комплексное. Телефонные переговоры, которые лицо ведёт в ходе наблюдения, — доп. санкции суда не нужно (КС РФ).</div>
+        </div>
+        <div class="orm-badge">усмотрение</div>
+      </div>
+      <div class="orm-card">
+        <div class="orm-num">§8</div>
+        <div class="orm-body">
+          <div class="orm-name">Отождествление личности</div>
+          <div class="orm-desc">Гласно/негласно, непосредственно/опосредованно: фото, видео, биометрия, СМИ, запаховые следы. Не подменяет предъявления для опознания.</div>
+        </div>
+        <div class="orm-badge">усмотрение</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- §9 Dual note -->
+    <h2 style="font-size:17px;margin-top:0">
+      Двойственные ОРМ
+      <span class="pill" style="background:#F2F1EC;color:var(--ink3)">Зависит от условий</span>
+    </h2>
+
+    <div class="dual-note">
+      <div class="dual-title">§9 — Обследование помещений, зданий, сооружений, участков местности и ТС</div>
+      <div class="dual-row">
+        <span class="tag" style="background:var(--purple-bg);color:#4A2E8C;min-width:100px;text-align:center">Общий</span>
+        <span>Жилые помещения — с письменного согласия хотя бы одного жильца</span>
+      </div>
+      <div class="dual-row">
+        <span class="tag" style="background:var(--teal-bg);color:#0A5C3C;min-width:100px;text-align:center">Ведомственный</span>
+        <span>Нежилые объекты — распоряжение, подписанное руководителем органа ОРД</span>
+      </div>
+      <div class="dual-row">
+        <span class="tag" style="background:var(--coral-bg);color:#B02020;min-width:100px;text-align:center">Судебный</span>
+        <span>Жилище — без согласия жильцов или негласно → только по решению суда</span>
+      </div>
+    </div>
+
+    <div class="dual-note" style="margin-top:8px">
+      <div class="dual-title">§5 — Проверочная закупка / §14 — Контролируемая поставка</div>
+      <div class="dual-row">
+        <span class="tag" style="background:var(--purple-bg);color:#4A2E8C;min-width:100px;text-align:center">Общий</span>
+        <span>Предметы свободного гражданского оборота</span>
+      </div>
+      <div class="dual-row">
+        <span class="tag" style="background:var(--teal-bg);color:#0A5C3C;min-width:100px;text-align:center">Ведомственный</span>
+        <span>Предметы ограниченного оборота или изъятые из оборота (наркотики, оружие и др.)</span>
+      </div>
+    </div>
+
+    <div class="dual-note" style="margin-top:8px">
+      <div class="dual-title">§7 — Наблюдение</div>
+      <div class="dual-row">
+        <span class="tag" style="background:var(--purple-bg);color:#4A2E8C;min-width:100px;text-align:center">Общий</span>
+        <span>Простое наружное наблюдение за лицом, местом, транспортным средством</span>
+      </div>
+      <div class="dual-row">
+        <span class="tag" style="background:var(--coral-bg);color:#B02020;min-width:100px;text-align:center">Судебный</span>
+        <span>Наблюдение в жилых помещениях — только судебное решение</span>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Key differences fromследственные действия -->
+    <h2 style="font-size:17px;margin-top:0">Главные отличия от следственных действий</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div style="background:#F7F6F0;border-radius:10px;padding:14px 16px;border:0.5px solid var(--rule)">
+        <div style="font-size:11px;font-weight:600;color:var(--ink4);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Следственные действия</div>
+        <ul style="font-size:13px;color:var(--ink2);line-height:1.7;padding-left:16px">
+          <li>Только по возбуждённому делу</li>
+          <li>Результат — доказательства сразу</li>
+          <li>Строгая УПК-процедура</li>
+          <li>Только гласно</li>
+        </ul>
+      </div>
+      <div style="background:#F7F6F0;border-radius:10px;padding:14px 16px;border:0.5px solid var(--rule)">
+        <div style="font-size:11px;font-weight:600;color:var(--ink4);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">ОРМ</div>
+        <ul style="font-size:13px;color:var(--ink2);line-height:1.7;padding-left:16px">
+          <li>Не требуют дела оперучёта</li>
+          <li>Результат → доказательства после закрепления</li>
+          <li>Порядок — ведомственные акты</li>
+          <li>Гласно и негласно</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════ -->
+    <!-- ИНТЕРАКТИВНЫЙ СПРАВОЧНИК       -->
+    <!-- ══════════════════════════════ -->
+    <h2 style="font-size:17px;margin-top:0">
+      Справочник по всем 15 ОРМ
+      <span class="pill" style="background:#F2F1EC;color:var(--ink3)">Поиск · Фильтр</span>
+    </h2>
+
+    <!-- Search -->
+    <div style="display:flex;align-items:center;gap:10px;background:#F7F6F0;border:0.5px solid var(--rule);border-radius:10px;padding:9px 14px;margin-bottom:12px">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="opacity:0.4;flex-shrink:0"><circle cx="6.5" cy="6.5" r="5" stroke="#1C1C1E" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="#1C1C1E" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input id="ref-search" type="text" placeholder="Поиск по названию, способу, объекту…"
+        style="border:none;background:transparent;width:100%;font-size:13.5px;color:var(--ink);outline:none;font-family:inherit"
+        oninput="refRender()">
+    </div>
+
+    <!-- Filter chips -->
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px" id="ref-filters">
+      <button class="ref-chip active" data-f="all" onclick="refFilter('all')">Все (15)</button>
+      <button class="ref-chip" data-f="glas" onclick="refFilter('glas')">Гласные</button>
+      <button class="ref-chip" data-f="negl" onclick="refFilter('negl')">Негласные</button>
+      <button class="ref-chip" data-f="sud" onclick="refFilter('sud')">Судебное решение</button>
+    </div>
+
+    <!-- Cards container -->
+    <div id="ref-grid" style="display:grid;gap:7px"></div>
+    <div id="ref-empty" style="display:none;text-align:center;font-size:13px;color:var(--ink4);padding:24px 0">Ничего не найдено</div>
+
+  </div><!-- /note-body -->
+
+  <!-- Footer -->
+  <div class="note-footer">
+    <div class="words">15 ОРМ · §§ 2–16 · 3 вида санкционирования</div>
+    <div class="tags">
+      <span class="tag">ОРД</span>
+      <span class="tag">ОРМ</span>
+      <span class="tag">Конспект</span>
+    </div>
+  </div>
+
+</div>
+<script>
+const ORM_DATA = [
+  {n:2,name:"Опрос",type:"glas",san:"obc",
+   desc:"Сбор фактической информации со слов опрашиваемого для задач ОРД. Лицо не может быть принудительно вызвано. Возможен полиграф — только с согласия.",
+   способ:"Специальная беседа",
+   объект:"Любые лица, располагающие оперативно-значимой информацией",
+   форма:"Гласно или негласно; дистанционно (телефон, интернет)",
+   основание:"Решение сотрудника оперативного подразделения",
+   оформление:"Объяснение, заявление, рапорт или справка"},
+  {n:3,name:"Наведение справок",type:"glas",san:"obc",
+   desc:"Получение сведений из учётов ОВД, ФНС, Росреестра, банков, медучреждений, операторов связи. Для коммерческой, банковской, адвокатской тайны — судебное решение.",
+   способ:"Направление запроса или непосредственное ознакомление с носителями",
+   объект:"Документы, базы данных, информационные системы ведомств",
+   форма:"Гласно; запрос подписывается руководителем",
+   основание:"Письменный запрос (судебное решение — для охраняемых тайн)",
+   оформление:"Справка или рапорт с приложением полученных документов"},
+  {n:4,name:"Сбор образцов для сравнительного исследования",type:"glas",san:"obc",
+   desc:"Вспомогательное ОРМ — образцы нужны для последующего исследования (§6). Шире следственного действия по кругу объектов: кровь, ДНК, запах, следы обуви, файлы и др.",
+   способ:"Обнаружение, физическое изъятие и консервация материальных носителей",
+   объект:"Лица, неопознанные трупы, объекты со следами преступной деятельности",
+   форма:"Гласно (добровольно) или негласно",
+   основание:"Решение сотрудника; при медицинских манипуляциях — согласие лица",
+   оформление:"Протокол (гласный сбор), рапорт или справка с упакованными образцами"},
+  {n:5,name:"Проверочная закупка",type:"negl",san:"ved",
+   desc:"Создание ситуации возмездного приобретения предметов под оперативным контролем без цели потребления. Провоцировать умысел у проверяемого запрещено.",
+   способ:"Возмездное приобретение товаров или услуг",
+   объект:"Лица, обоснованно подозреваемые в незаконном сбыте",
+   форма:"Негласно; «закупщик» скрывает принадлежность к правоохранительным органам",
+   основание:"Постановление руководителя (для предметов огр. оборота — обязательно)",
+   оформление:"Акт, рапорт или заявление «закупщика», протокол изъятия"},
+  {n:6,name:"Исследование предметов и документов",type:"glas",san:"obc",
+   desc:"Оперативный аналог судебной экспертизы без УПК-формы. Проводится специалистами ЭКП до возбуждения дела. Объекты должны сохраняться для последующей экспертизы.",
+   способ:"Криминалистические и иные специальные методики",
+   объект:"Предметы, идентифицирующие личность, и носители следов преступления",
+   форма:"Гласно или негласно; проводится специалистами ЭКП или иных учреждений",
+   основание:"Письменное обращение руководителя оперативного подразделения",
+   оформление:"Справка специалиста (в системе МВД) или документ учреждения"},
+  {n:7,name:"Наблюдение",type:"negl",san:"obc",
+   desc:"Визуальное, электронное или комплексное слежение. Телефонные переговоры лица в ходе наблюдения — доп. санкции не требуется (КС РФ, 2008). Наблюдение в жилище — судебное решение.",
+   способ:"Визуальное, электронное или комплексное слежение",
+   объект:"Лица, места концентрации подозреваемых, объекты хранения похищенного",
+   форма:"Простое (сотрудник самостоятельно) или сложное (спецподразделения)",
+   основание:"Решение сотрудника (простое); судебное решение — при наблюдении в жилище",
+   оформление:"Рапорт; при участии спецподразделений — установленный ведомственный порядок"},
+  {n:8,name:"Отождествление личности",type:"negl",san:"obc",
+   desc:"Оперативный аналог предъявления для опознания. После участия потерпевшего/свидетеля в ОРМ — тому же лицу нельзя предъявить того же человека для официального опознания.",
+   способ:"Опознание по визуальным, голосовым, запаховым и биометрическим признакам",
+   объект:"Лица, совершившие преступление; разыскиваемые; неопознанные трупы",
+   форма:"Гласно/негласно; фото, видео, биометрия, СМИ, запаховые следы",
+   основание:"Решение сотрудника оперативного подразделения",
+   оформление:"Акт, рапорт/справка, объяснение участника, заключение специалиста"},
+  {n:9,name:"Обследование помещений, зданий, сооружений, участков местности и ТС",type:"glas",san:"dual",
+   desc:"Аналог следственного осмотра и обыска. Порядок зависит от объекта: нежилое — ведомственный; жилище с согласием — общий; жилище без согласия или негласно — судебный.",
+   способ:"Проникновение и осмотр; визуальный осмотр или активные поисковые действия",
+   объект:"Любые объекты материального мира, нежилые и жилые помещения, транспорт",
+   форма:"Гласное (с распоряжением) или негласное",
+   основание:"Распоряжение руководителя / судебное решение — для жилища без согласия",
+   оформление:"Рапорт/справка + протокол изъятия (при гласном обследовании)"},
+  {n:10,name:"Контроль почтовых отправлений, телеграфных и иных сообщений",type:"negl",san:"sud",
+   desc:"Охватывает только материальные отправления (письма, посылки). Электронная почта — предмет других ОРМ. Субъект — ФСБ, в исключительных случаях БСТМ МВД. Срок до 6 месяцев.",
+   способ:"Просмотр письменной корреспонденции на материальных носителях",
+   объект:"Почтовые отправления лиц, причастных к преступной деятельности",
+   форма:"Негласно; только через операторов почтовой связи",
+   основание:"Судебное решение; в неотложных случаях — уведомление суда в 48 ч",
+   оформление:"Рапорт/справка с приложением носителей информации"},
+  {n:11,name:"Прослушивание телефонных переговоров",type:"negl",san:"sud",
+   desc:"Охватывает проводную, сотовую связь, факс, телекс. Возможно до возбуждения дела. Суд может разрешить ПТП на номера, зарегистрированные на третьих лиц.",
+   способ:"Получение и фиксация акустической информации с телефонных линий",
+   объект:"Подозреваемые в преступлениях средней тяжести, тяжких, особо тяжких",
+   форма:"Только негласно; обязательное применение технических средств",
+   основание:"Судебное решение; при неотложности — уведомление суда в 48 ч",
+   оформление:"Рапорт с носителем (гласные сотрудники); сводка ПСТМ"},
+  {n:12,name:"Снятие информации с технических каналов связи",type:"negl",san:"sud",
+   desc:"Все каналы, кроме телефонных: e-mail, интернет, радиоперехват. Субъект — только ПСТМ. Оперативный сотрудник лишь организует — непосредственное проведение в компетенции ПСТМ.",
+   способ:"Получение и фиксация сигналов по техническим каналам с помощью техсредств",
+   объект:"Любой, имеющий отношение к преступлению соответствующей тяжести",
+   форма:"Только негласно; субъект — сотрудники ПСТМ",
+   основание:"Судебное решение (аналогично ПТП)",
+   оформление:"Сводка ПСТМ; носитель предоставляется по отдельному запросу"},
+  {n:13,name:"Оперативное внедрение",type:"negl",san:"ved",
+   desc:"По срокам: кратковременное (часы–сутки) или долговременное (месяцы–годы). Привлечение к сотрудничеству лица, уже находящегося в преступной среде, самостоятельного ОРМ не образует.",
+   способ:"Проникновение источника в преступную среду",
+   объект:"Лица, подготавливающие/совершившие преступления; ОПФ",
+   форма:"Негласно; штатный негласный сотрудник или конфидент",
+   основание:"Постановление руководителя с указанием тактического замысла и мер безопасности",
+   оформление:"По ведомственным нормативным актам; при техсредствах — носители"},
+  {n:14,name:"Контролируемая поставка",type:"negl",san:"ved",
+   desc:"Три вида: внутренняя, внешняя, транзитная. Два подвида тактики: обычная (без изъятия) и подменная (муляж). Взаимодействие МВД, ФСБ, таможни, Интерпола.",
+   способ:"Контроль перемещения товаров, веществ или предметов",
+   объект:"Предметы ограниченного оборота или предметы, связанные с преступлением",
+   форма:"Внутренняя / внешняя / транзитная; обычная или подменная",
+   основание:"Мотивированное постановление руководителя ОРД",
+   оформление:"По установленному порядку; документы передаются следователю постановлением"},
+  {n:15,name:"Оперативный эксперимент",type:"negl",san:"ved",
+   desc:"Только для преступлений средней тяжести, тяжких, особо тяжких. Провокация умысла — категорически запрещена. Умысел должен возникнуть у лица до начала эксперимента.",
+   способ:"Эксперимент — искусственное создание обстановки для выявления преступных действий",
+   объект:"Лица, совершающие/совершившие преступления средней тяжести и выше",
+   форма:"Негласно; с привлечением ОПП, ПСТМ и содействующих лиц",
+   основание:"Постановление + план, утверждённый руководителем органа ОРД",
+   оформление:"Рапорт или акт оперативного эксперимента; протокол изъятия"},
+  {n:16,name:"Получение компьютерной информации",type:"negl",san:"sud",
+   desc:"Введено в 2016 г. Удалённый доступ через закладные устройства или запрос к информационной системе оператора. Судебное решение — если затрагивается тайна переписки или жилища.",
+   способ:"Удалённый доступ с закладными устройствами или запрос к ИС оператора",
+   объект:"Информация на жёстких дисках, периферии, облачных хранилищах; данные операторов",
+   форма:"Только негласно; субъект — сотрудники БСТМ",
+   основание:"Судебное решение (если затрагивается тайна/жилище); без решения — иначе",
+   оформление:"Аналогично ПТП: рапорт + носитель"}
+];
+
+const TYPE_LABEL = {glas:"гласное",negl:"негласное"};
+const TYPE_CLS   = {glas:"tag-glas",negl:"tag-negl"};
+const SAN_LABEL  = {sud:"судебное решение",ved:"постановление",obc:"усмотрение сотрудника",dual:"зависит от условий"};
+const SAN_CLS    = {sud:"tag-san-sud",ved:"tag-san-ved",obc:"tag-san-obc",dual:"tag-san-obc"};
+
+let refActiveFilter = 'all';
+let refOpenIdx = null;
+
+function refFilter(f) {
+  refActiveFilter = f;
+  document.querySelectorAll('.ref-chip').forEach(c => c.classList.toggle('active', c.dataset.f === f));
+  refRender();
+}
+
+function refRender() {
+  const q = document.getElementById('ref-search').value.toLowerCase().trim();
+  const grid = document.getElementById('ref-grid');
+  const empty = document.getElementById('ref-empty');
+  grid.innerHTML = '';
+  let shown = 0;
+
+  ORM_DATA.forEach((o, idx) => {
+    const matchQ = !q || o.name.toLowerCase().includes(q) || o.desc.toLowerCase().includes(q)
+      || o.способ.toLowerCase().includes(q) || o.объект.toLowerCase().includes(q);
+    const matchF = refActiveFilter === 'all'
+      || (refActiveFilter === 'glas' && o.type === 'glas')
+      || (refActiveFilter === 'negl' && o.type === 'negl')
+      || (refActiveFilter === 'sud'  && o.san === 'sud');
+    if (!matchQ || !matchF) return;
+    shown++;
+
+    const isOpen = refOpenIdx === idx;
+    const card = document.createElement('div');
+    card.className = 'ref-card' + (isOpen ? ' open' : '');
+    card.innerHTML = `
+      <div class="ref-header" onclick="refToggle(${idx})">
+        <span class="ref-num">§${o.n}</span>
+        <span class="ref-name">${o.name}</span>
+        <span class="ref-tags">
+          <span class="ref-tag ${TYPE_CLS[o.type]}">${TYPE_LABEL[o.type]}</span>
+          <span class="ref-tag ${SAN_CLS[o.san]}">${SAN_LABEL[o.san]}</span>
+        </span>
+        <span class="ref-chevron">▾</span>
+      </div>
+      <div class="ref-details">
+        <div class="ref-overview">${o.desc}</div>
+        <div class="ref-rows">
+          <div class="ref-row"><span class="ref-lbl">Способ</span><span class="ref-val">${o.способ}</span></div>
+          <div class="ref-row"><span class="ref-lbl">Объект</span><span class="ref-val">${o.объект}</span></div>
+          <div class="ref-row"><span class="ref-lbl">Форма</span><span class="ref-val">${o.форма}</span></div>
+          <div class="ref-row"><span class="ref-lbl">Основание</span><span class="ref-val">${o.основание}</span></div>
+          <div class="ref-row"><span class="ref-lbl">Оформление</span><span class="ref-val">${o.оформление}</span></div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  empty.style.display = shown === 0 ? 'block' : 'none';
+}
+
+function refToggle(idx) {
+  refOpenIdx = refOpenIdx === idx ? null : idx;
+  refRender();
+}
+
+refRender();
+</script>
+
