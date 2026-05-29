@@ -423,6 +423,45 @@
   html { scroll-behavior: smooth; }
   .section-anchor { display: block; height: 0; visibility: hidden; }
 
+  /* ── Back to top button ── */
+  .back-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    z-index: 999;
+  }
+  .back-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .back-top:hover {
+    background: var(--ink2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+  }
+  .back-top:active { transform: translateY(0); }
+  .back-top svg { display: block; }
+
+  @media (max-width: 600px) {
+    .back-top { bottom: 20px; right: 20px; width: 38px; height: 38px; }
+  }
+
   .note-footer {
     padding: 16px 48px 28px;
     border-top: 0.5px solid var(--rule);
@@ -1484,3 +1523,16 @@ function refToggle(idx) {
 refRender();
 </script>
 
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Наверх">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M8 12V4M4 8l4-4 4 4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+<script>
+const btn = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  btn.classList.toggle('visible', window.scrollY > 300);
+}, {passive: true});
+</script>
+</body>
+</html>
