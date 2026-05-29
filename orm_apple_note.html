@@ -379,6 +379,50 @@
   .tag-san-ved { background:#E6FAF3;color:#0A5C3C; }
   .tag-san-obc { background:#F5F0FF;color:#4A2E8C; }
 
+  /* ── TOC ── */
+  .toc-block {
+    padding: 20px 48px 24px;
+    border-bottom: 0.5px solid var(--rule);
+    background: #FAFAF7;
+  }
+  .toc-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink4);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 12px;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 8px;
+  }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    border-radius: 7px;
+    text-decoration: none;
+    transition: background 0.12s;
+  }
+  .toc-item:hover { background: var(--rule); }
+  .toc-num {
+    font-size: 13px;
+    color: var(--amber);
+    min-width: 20px;
+    flex-shrink: 0;
+  }
+  .toc-label {
+    font-size: 13px;
+    color: var(--ink2);
+    line-height: 1.3;
+  }
+  .toc-item:hover .toc-label { color: var(--ink); }
+  html { scroll-behavior: smooth; }
+  .section-anchor { display: block; height: 0; visibility: hidden; }
+
   .note-footer {
     padding: 16px 48px 28px;
     border-top: 0.5px solid var(--rule);
@@ -396,9 +440,10 @@
   }
 
   @media (max-width: 600px) {
-    .note-header, .note-body, .note-footer { padding-left: 24px; padding-right: 24px; }
+    .note-header, .note-body, .note-footer, .toc-block { padding-left: 24px; padding-right: 24px; }
     .summary { grid-template-columns: 1fr; }
     .note-title { font-size: 24px; }
+    .toc-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -420,18 +465,34 @@
     <div class="note-subtitle">Закон об ОРД · Определение · Принципы · Задачи · 15 мероприятий · 3 вида санкционирования</div>
   </div>
 
-  <!-- Body -->
-  <div class="note-body">
-
-    <div class="note-date">14 мая 2026 · Оперативно-розыскная деятельность</div>
-    <div class="note-title">Полный конспект по ОРД и ОРМ</div>
-    <div class="note-subtitle">Закон об ОРД · Определение · Принципы · Задачи · 15 мероприятий · 3 вида санкционирования</div>
+  <!-- TOC -->
+  <div class="toc-block">
+    <div class="toc-title">Содержание</div>
+    <div class="toc-grid">
+      <a class="toc-item" href="#s1"><span class="toc-num">①</span><span class="toc-label">Определение ОРД</span></a>
+      <a class="toc-item" href="#s2"><span class="toc-num">②</span><span class="toc-label">Принципы ОРД</span></a>
+      <a class="toc-item" href="#s3"><span class="toc-num">③</span><span class="toc-label">Задачи ОРД</span></a>
+      <a class="toc-item" href="#s4"><span class="toc-num">④</span><span class="toc-label">Правовая основа</span></a>
+      <a class="toc-item" href="#s5"><span class="toc-num">⑤</span><span class="toc-label">Права лиц</span></a>
+      <a class="toc-item" href="#s6"><span class="toc-num">⑥</span><span class="toc-label">Запреты для органов</span></a>
+      <a class="toc-item" href="#s7"><span class="toc-num">⑦</span><span class="toc-label">Перечень ОРМ</span></a>
+      <a class="toc-item" href="#s8"><span class="toc-num">⑧</span><span class="toc-label">Тайна исповеди</span></a>
+      <a class="toc-item" href="#s9"><span class="toc-num">⑨</span><span class="toc-label">Виды санкционирования</span></a>
+      <a class="toc-item" href="#s10"><span class="toc-num">⑩</span><span class="toc-label">Органы ОРД</span></a>
+      <a class="toc-item" href="#s11"><span class="toc-num">⑪</span><span class="toc-label">Основания для ОРМ</span></a>
+      <a class="toc-item" href="#s12"><span class="toc-num">⑫</span><span class="toc-label">Использование результатов</span></a>
+      <a class="toc-item" href="#s13"><span class="toc-num">⑬</span><span class="toc-label">Контроль и надзор</span></a>
+      <a class="toc-item" href="#s14"><span class="toc-num">⑭</span><span class="toc-label">Дела операт. учёта</span></a>
+      <a class="toc-item" href="#s15"><span class="toc-num">⑮</span><span class="toc-label">Содействие граждан</span></a>
+      <a class="toc-item" href="#s16"><span class="toc-num">⑯</span><span class="toc-label">Справочник ОРМ</span></a>
+    </div>
   </div>
 
   <!-- Body -->
   <div class="note-body">
 
     <!-- ══════════════ 1. ОПРЕДЕЛЕНИЕ ══════════════ -->
+    <span id="s1" class="section-anchor"></span>
     <h2 style="margin-top:0">
       <span style="color:var(--amber)">①</span>
       Определение ОРД
@@ -453,6 +514,7 @@
     <hr class="divider">
 
     <!-- ══════════════ 2. ПРИНЦИПЫ ══════════════ -->
+    <span id="s2" class="section-anchor"></span>
     <h2>
       <span style="color:var(--amber)">②</span>
       Принципы ОРД
@@ -492,6 +554,7 @@
     <hr class="divider">
 
     <!-- ══════════════ 3. ЗАДАЧИ ══════════════ -->
+    <span id="s3" class="section-anchor"></span>
     <h2>
       <span style="color:var(--amber)">③</span>
       Задачи ОРД
@@ -519,6 +582,7 @@
     <hr class="divider">
 
     <!-- ══════════════ 4. ПРАВОВАЯ ОСНОВА ══════════════ -->
+    <span id="s4" class="section-anchor"></span>
     <h2>
       <span style="color:var(--amber)">④</span>
       Правовая основа ОРД
@@ -550,6 +614,7 @@
     <hr class="divider">
 
     <!-- ══════════════ 5. ПРАВА ЛИЦ ══════════════ -->
+    <span id="s5" class="section-anchor"></span>
     <h2>
       <span style="color:var(--amber)">⑤</span>
       Права лиц, к которым применяется ОРД
@@ -581,6 +646,7 @@
     <hr class="divider">
 
     <!-- ══════════════ 6. ЗАПРЕТЫ ══════════════ -->
+    <span id="s6" class="section-anchor"></span>
     <h2>
       <span style="color:var(--amber)">⑥</span>
       Что запрещается органам ОРД
@@ -608,6 +674,7 @@
     <hr class="divider">
 
     <!-- ══════════════ 7. ПЕРЕЧЕНЬ ОРМ ══════════════ -->
+    <span id="s7" class="section-anchor"></span>
     <h2>
       <span style="color:var(--amber)">⑦</span>
       Какие ОРМ могут проводиться
@@ -636,6 +703,7 @@
     <hr class="divider">
 
     <!-- ══════════════ 8. СВЯЩЕННИКИ ══════════════ -->
+    <span id="s8" class="section-anchor"></span>
     <h2>
       <span style="color:var(--amber)">⑧</span>
       Почему нельзя допрашивать священников?
@@ -676,6 +744,7 @@
     <hr class="divider">
 
     <!-- Старый callout, теперь вводит раздел о видах санкционирования -->
+    <span id="s9" class="section-anchor"></span>
     <h2 style="margin-top:0">
       <span style="color:var(--amber)">⑨</span>
       Виды ОРМ по порядку санкционирования
@@ -918,6 +987,7 @@
     <hr class="divider">
 
     <!-- ══════════════ ОРГАНЫ ══════════════ -->
+    <span id="s10" class="section-anchor"></span>
     <h2 style="margin-top:0">
       <span style="color:var(--teal)">⑩</span>
       Органы, осуществляющие ОРД
@@ -980,6 +1050,7 @@
     <hr class="divider">
 
     <!-- ══════════════ ОСНОВАНИЯ ══════════════ -->
+    <span id="s11" class="section-anchor"></span>
     <h2 style="margin-top:0">
       <span style="color:var(--teal)">⑪</span>
       Основания для проведения ОРМ
@@ -1023,6 +1094,7 @@
     <hr class="divider">
 
     <!-- ══════════════ ИСПОЛЬЗОВАНИЕ РЕЗУЛЬТАТОВ ══════════════ -->
+    <span id="s12" class="section-anchor"></span>
     <h2 style="margin-top:0">
       <span style="color:var(--purple)">⑫</span>
       Использование результатов ОРД
@@ -1081,6 +1153,7 @@
     <hr class="divider">
 
     <!-- ══════════════ КОНТРОЛЬ И НАДЗОР ══════════════ -->
+    <span id="s13" class="section-anchor"></span>
     <h2 style="margin-top:0">
       <span style="color:var(--coral)">⑬</span>
       Контроль и надзор за ОРД
@@ -1108,6 +1181,7 @@
     <hr class="divider">
 
     <!-- ══════════════ ДЕЛА ОПЕРАТИВНОГО УЧЁТА ══════════════ -->
+    <span id="s14" class="section-anchor"></span>
     <h2 style="margin-top:0">
       <span style="color:var(--teal)">⑭</span>
       Дела оперативного учёта (ДОУ)
@@ -1140,6 +1214,7 @@
     <hr class="divider">
 
     <!-- ══════════════ СОДЕЙСТВИЕ ГРАЖДАН ══════════════ -->
+    <span id="s15" class="section-anchor"></span>
     <h2 style="margin-top:0">
       <span style="color:var(--purple)">⑮</span>
       Содействие граждан органам ОРД
@@ -1193,6 +1268,7 @@
     <!-- ══════════════════════════════ -->
     <!-- ИНТЕРАКТИВНЫЙ СПРАВОЧНИК       -->
     <!-- ══════════════════════════════ -->
+    <span id="s16" class="section-anchor"></span>
     <h2 style="font-size:17px;margin-top:0">
       Справочник по всем 15 ОРМ
       <span class="pill" style="background:#F2F1EC;color:var(--ink3)">Поиск · Фильтр</span>
